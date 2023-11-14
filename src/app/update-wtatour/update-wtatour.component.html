@@ -1,0 +1,58 @@
+<div class="container">
+    <div>
+      <h2>Update Tour :</h2>
+    </div>
+    <form >
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <label>ID Tour</label>
+            <input readonly type="text" [(ngModel)]="currentWtatour.idTour"
+            name="idTour" class="form-control">
+        </div>
+
+      <div class="col-sm-2 col-md-2 col-lg-2">
+        <label>Court Surface</label>
+        <input type="text" [(ngModel)]="currentWtatour.courtSurface" name="courtSurface" class="form-control">
+      </div>
+
+      <div class="col-sm-2 col-md-2 col-lg-2">
+        <label>Dotation</label>
+        <input type="number" [(ngModel)]="currentWtatour.dotation" name="dotation" class="form-control">
+      </div>
+
+  
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label>Date Tour</label>
+        <input type="date" [ngModel]="currentWtatour.dateTour | date: 'yyyy-MM-dd'"
+        (ngModelChange)=" currentWtatour.dateTour= $event" name="dateTour"
+        class="form-control">
+      </div>
+
+      <div class="col-sm-2 col-md-2 col-lg-2">
+        <label>Name Tour</label>
+        <input type="text" [(ngModel)]="currentWtatour.nameTour" name="nameTour" class="form-control">
+      </div>
+  
+
+      <div class="col-sm-2 col-md-2 col-lg-2">
+        <label>Winner</label>
+        <input type="text" [(ngModel)]="currentWtatour.winner" name="winner" class="form-control">
+      </div>
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label>Status</label>
+        <select class="form-control form-control-lg" id="idStat" name="idStat"
+        [(ngModel)]="updatedStId">
+        <option *ngFor="let st of stats" [value]="st.idStat" >
+        {{st.namePlayer}}
+        </option>
+        </select>
+        </div>
+  
+      <div class="mt-2">
+        <button type="submit" (click)="updateWtaTour()" class="btn btn-warning">Update</button>
+    </div>
+      
+    </form>
+  </div>
+  
+  

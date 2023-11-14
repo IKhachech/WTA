@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
+            <label>Status </label>
+            <select class="form-control form-control-lg" id="idStat" name="idStat"
+            [(ngModel)]="IdStat" (change)="onChange()">
+            <option *ngFor="let st of stats" value="{{st.idStat}}">
+            {{st.namePlayer}}
+             </option>
+            </select>
+            </div>
+        <table class="table table-striped">
+          <tr>
+            <th>Id</th>
+            <th>Court Surface</th>
+            <th>Dotation</th>
+            <th>Date Tour</th>
+            <th>Name Tour</th>
+            <th>Winner</th>
+            <th>Status</th>
+          </tr>
+          <tbody *ngFor="let tour of wtatour">
+            <tr>
+              <td>{{ tour.idTour }}</td>
+              <td>{{ tour.courtSurface }}</td>
+              <td>{{ tour.dotation }}</td>
+              <td>{{ tour.dateTour | date:'dd/MM/yyyy' }}</td>
+              <td>{{ tour.nameTour }}</td>
+              <td>{{ tour.winner }}</td>
+              <td>{{ tour.stats!.idStat }}</td>
+              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

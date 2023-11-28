@@ -1,0 +1,32 @@
+<form>
+    <div [hidden]="ajout">
+        <label>ID Stat</label>
+        <input type="text" [readonly]="!ajout" [(ngModel)]="stats.idStat" name="idStat" class="form-control w-25">
+    </div>
+
+    <div>
+        <label>Name Player</label>
+        <input type="text" [(ngModel)]="stats.namePlayer" name="namePlayer" class="form-control"
+            placeholder="Enter name of Stat...">
+    </div>
+
+    <div>
+        <label>Nationality</label>
+        <input type="text" [(ngModel)]="stats.nationality" name="nationality" class="form-control"
+            placeholder="Enter nationality of Stat...">
+    </div>
+
+    <div>
+        <label>Ranking</label>
+        <input type="number" [(ngModel)]="stats.ranking" name="ranking" class="form-control">
+    </div>
+
+    <div>
+        <label>TiltlesWon</label>
+        <input type="number" [(ngModel)]="stats.titlesWon" name="titlesWon" class="form-control">
+    </div>
+
+    <div class="mt-2">
+        <button type="submit" [disabled]="!stats.namePlayer" class="btn btn-success" (click)="saveStat()">{{ajout ? 'Add' : 'Edit'}}</button>
+    </div>
+</form>

@@ -4,6 +4,10 @@ import { Stats } from "../model/stat.model";
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StatWrapper } from '../model/statWrapped.model';
+import { AuthService } from '../auth.service';
+import { apiURL } from 'config';
+import { Image } from '../model/image.model';
+
 const httpOptions = {
   headers: new HttpHeaders( {'Content-Type': 'application/json'} )
   };
@@ -11,13 +15,15 @@ const httpOptions = {
 providedIn: 'root'
 })
 export class WtaTourService {
+
   apiURL: string = 'http://localhost:8085/spring01/api';
   apiURLSt: string = 'http://localhost:8085/spring01/st';
+
   tour! : WtaTour;
-  wtatour: WtaTour[];
+  wtatour!: WtaTour[];
 
   stats!: Stats[];
-  constructor(private http : HttpClient) {
+  constructor(private http : HttpClient,private authService :AuthService) {
 
    
     
@@ -27,7 +33,7 @@ export class WtaTourService {
       {id_stat: 3, name_player: "Iga Swiatek",nationality:"POL",ranking:2,titles_won:16}
   
     ]*/
-    this.wtatour = [
+   /*this.wtatour = [
       { 
         idTour: 1, 
         courtSurface: "Clay", 
@@ -55,20 +61,24 @@ export class WtaTourService {
         winner: "Aryana Sabalenka", 
         stats: {idStat: 3, namePlayer: "Aryana Sabalenka", nationality: "BLR", ranking: 1, titlesWon: 12}
       }
-    ];
-  }
- 
+    ];*/
+  } 
+
   //listStat():Observable<Stats[]>{
     //return this.http.get<Stats[]>(this.apiURL+"/st");
     //}
 
     listStat(): Observable<StatWrapper> {
-      return this.http.get<StatWrapper>(this.apiURLSt);
-    }
+      let jwt = this.authService.getToken(); 
+      jwt = "Bearer "+jwt; 
+      let httpHeaders = new HttpHeaders({"Authorization":jwt}) 
+      return this.http.get<StatWrapper>(this.apiURLSt,{headers:httpHeaders} );   }
 
   listWtaTour(): Observable<WtaTour[]> {
-    return this.http.get<WtaTour[]>(this.apiURL);
-  }
+    //let jwt = this.authService.getToken();
+    //jwt = "Bearer "+jwt;
+    //let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.get<WtaTour[]>(this.apiURL+"/all");  }
 
 trierWtaTour(){
   this.wtatour = this.wtatour.sort((n1,n2) => {
@@ -83,29 +93,45 @@ trierWtaTour(){
   }
 
 addWtaTour( wt: WtaTour):Observable<WtaTour>{
-  return this.http.post<WtaTour>(this.apiURL, wt, httpOptions);
+  let jwt = this.authService.getToken();
+  jwt = "Bearer "+jwt; 
+  let httpHeaders = new HttpHeaders({"Authorization":jwt})
+  return this.http.post<WtaTour>(this.apiURL+"/addprod", wt, {headers:httpHeaders});
   }
-  rechercherParStat(idSt: number):Observable< WtaTour[]> {
-    const url = `${this.apiURL}/prodscat/${idSt}`;
-    return this.http.get<WtaTour[]>(url);
+
+  rechercherParStat(idStat: number):Observable< WtaTour[]> {
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt; 
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    const url = `${this.apiURL}/prodscat/${idStat}`;
+    return this.http.get<WtaTour[]>(url,{headers:httpHeaders});
     }
     //consulterStat(id:number): Stat{
     //return this.stat.find(st => st.id_stat == id)!;
     //}
 
   consulterWtaTour(id: number): Observable<WtaTour> { 
-    const url = `${this.apiURL}/${id}`; 
-  return this.http.get<WtaTour>(url);
+    const url = `${this.apiURL}/getbyid/${id}`;
+     let jwt = this.authService.getToken();
+     jwt = "Bearer "+jwt;
+     let httpHeaders = new HttpHeaders({"Authorization":jwt})
+     return this.http.get<WtaTour>(url,{headers:httpHeaders});
  }
 
   suppWtaTour(id : number) {
-    const url = `${this.apiURL}/${id}`;
-    return this.http.delete(url, httpOptions);
+    const url = `${this.apiURL}/delprod/${id}`;
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt}) 
+    return this.http.delete(url, {headers:httpHeaders});
     }
 
 
     updateWtaTour(wt :WtaTour) : Observable<WtaTour> { 
-      return this.http.put<WtaTour>(this.apiURL, wt, httpOptions); }
+      let jwt = this.authService.getToken();
+      jwt = "Bearer "+jwt;
+      let httpHeaders = new HttpHeaders({"Authorization":jwt})
+      return this.http.put<WtaTour>(this.apiURL+"/updateprod", wt, {headers:httpHeaders}); }
 
  
       rechercherParNom(name: string):Observable< WtaTour[]> {
@@ -113,8 +139,32 @@ addWtaTour( wt: WtaTour):Observable<WtaTour>{
         return this.http.get<WtaTour[]>(url);
         }
         
+        ajouterStat( st: Stats):Observable<Stats>{
+          return this.http.post<Stats>(this.apiURLSt, st, httpOptions);
+          }
 
-   
+    uploadImage(file: File, filename: string): Observable<Image>{
+     const imageFormData = new FormData();
+     imageFormData.append('image', file, filename); 
+     const url = `${apiURL + '/image/upload'}`;
+     return this.http.post<Image>(url, imageFormData);
+     }
+
+     
+    loadImage(id: number): Observable<Image> {
+      const url = `${apiURL + '/image/get/info'}/${id}`; 
+      return this.http.get<Image>(url); 
+    }
+
+    uploadImageTour(file: File, filename: string, idTour:number): 
+    Observable<any>{ const imageFormData = new FormData();
+       imageFormData.append('image', file, filename);
+        const url = `${this.apiURL + '/image/uplaodImageTour'}/${idTour}`; 
+        return this.http.post(url, imageFormData); }
+
+    supprimerImage(id : number) { 
+      const url = `${this.apiURL}/image/delete/${id}`;
+       return this.http.delete(url, httpOptions); }
 
 }
 

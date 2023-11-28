@@ -1,4 +1,5 @@
 import { Stats } from "./stat.model";
+import { Image } from "./image.model";
     export class WtaTour {
         idTour!: number;
         courtSurface!: string;
@@ -6,5 +7,8 @@ import { Stats } from "./stat.model";
         dateTour!: Date;
         nameTour!: string;
         winner!: string;
-        stats!: Stats ; // Permettre à stat d'être null
+        stats!: Stats ; 
+        image! : Image ;
+        imageStr!:string;
+        images!:Image[];
       }

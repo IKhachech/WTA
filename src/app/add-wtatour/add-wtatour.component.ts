@@ -3,6 +3,7 @@ import { WtaTour } from '../model/wta-tour.model';
 import { WtaTourService } from '../service/wta-tour.service'; 
 import { Stats } from '../model/stat.model';
 import { Router} from '@angular/router';
+import { Image } from '../model/image.model';
 @Component({
   selector: 'app-add-wtatour',
   templateUrl: './add-wtatour.component.html',
@@ -13,6 +14,10 @@ export class AddWtatourComponent implements OnInit {
   newIdSt!: number; // ou toute autre valeur par défaut que vous souhaitez
   newSt! : Stats;
   newTour = new WtaTour();
+
+  uploadedImage!: File;
+  imagePath: any;
+
   constructor(private wtatourService: WtaTourService,private router :Router) {}
  
 
@@ -26,14 +31,40 @@ export class AddWtatourComponent implements OnInit {
     );
   }
   
-    addWtaTour(){
+    /*addWtaTour(){
       this.newTour.stats = this.stats.find(st => st.idStat == this.newIdSt)!;
       this.wtatourService.addWtaTour(this.newTour)
       .subscribe(wt => {
       console.log(wt);
       this.router.navigate(['wtatour']);
       });
-      }  
+      } */
+      
+  addWtaTour() {
+    this.wtatourService.uploadImage(
+      this.uploadedImage, this.uploadedImage.name).subscribe(
+        (img: Image) => {
+          this.newTour.image = img;
+          this.newTour.stats = this.stats.find(
+            st => st.idStat == this.newIdSt)!;
+            
+          this.wtatourService.addWtaTour(
+            this.newTour).subscribe(() => {
+              this.router.navigate(['wtatour']);
+            });
+        });
+  }
+
+
+
+  onImageUpload(event: any) {
+    this.uploadedImage = event.target.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(this.uploadedImage);
+    reader.onload = (_event) => {
+      this.imagePath = reader.result;
+    }
+  }
 
 }
 

@@ -23,7 +23,7 @@
               <td>{{ tour.nameTour }}</td>
               <td>{{ tour.winner }}</td>
               <td>{{ tour.stats!.idStat }}</td>
-              <td><img class="card-img-top img-responsive" src = "{{tour.imageStr}}" style = "height :50px;width:100px"> </td>
+              <td><img class="card-img-top img-responsive" src ="{{apiurl+'/image/loadfromFS/'+tour.idTour}}" style = "height :50px;width:100px"> </td>
               <td><a *ngIf="authService.isAdmin()" class="btn btn-warning"  [routerLink]="['/update-wtaTour', tour.idTour]">Update</a></td>
               <td><a *ngIf="authService.isAdmin()" class="btn btn-danger" (click)="suppWtaTour(tour)">delete</a></td>
             </tr>

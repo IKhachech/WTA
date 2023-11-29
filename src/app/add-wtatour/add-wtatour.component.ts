@@ -14,7 +14,6 @@ export class AddWtatourComponent implements OnInit {
   newIdSt!: number; // ou toute autre valeur par défaut que vous souhaitez
   newSt! : Stats;
   newTour = new WtaTour();
-
   uploadedImage!: File;
   imagePath: any;
 
@@ -40,20 +39,32 @@ export class AddWtatourComponent implements OnInit {
       });
       } */
       
-  addWtaTour() {
+ /* addWtaTour() {
     this.wtatourService.uploadImage(
       this.uploadedImage, this.uploadedImage.name).subscribe(
         (img: Image) => {
           this.newTour.image = img;
           this.newTour.stats = this.stats.find(
             st => st.idStat == this.newIdSt)!;
-            
+
           this.wtatourService.addWtaTour(
             this.newTour).subscribe(() => {
               this.router.navigate(['wtatour']);
             });
         });
-  }
+  }*/
+
+  addWtaTour(){ 
+    this.newTour.stats = this.stats.find(
+      st => st.idStat == this.newIdSt)!;
+       this.wtatourService .addWtaTour(this.newTour) 
+       .subscribe((img) => { 
+        this.wtatourService .uploadImageFS(
+          this.uploadedImage, this.uploadedImage.name,img.idTour) 
+          .subscribe((response: any) => {} ); 
+          this.router.navigate(['wtatour']); 
+        });
+       }
 
 
 

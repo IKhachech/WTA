@@ -18,6 +18,8 @@ updatedStId? : number;
 myImage! : string;
 uploadedImage!: File;
 isImageUpdated: Boolean=false;
+images!:Image[];
+
 
 constructor(
   private activatedRoute: ActivatedRoute,
@@ -49,6 +51,7 @@ ngOnInit(): void {
       this.activatedRoute.snapshot.params['id']).subscribe(
          wt =>{ this.currentWtatour = wt; 
           this.updatedStId = wt.stats.idStat;
+          
          } ) 
          ; }            
             

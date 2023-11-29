@@ -13,8 +13,8 @@ import { Image } from '../model/image.model';
 
 export class WtaTourComponent implements OnInit {
   currentWtatour = new WtaTour();
-  wtatour!: WtaTour[];  
-    
+  wtatour?: WtaTour[];  
+  apiurl:string='http://localhost:8085/spring01/api';
   constructor(private wtatourService: WtaTourService,router:Router, public authService: AuthService ) {}
   ngOnInit(): void {
    this.chargerWtaTour();
@@ -32,7 +32,7 @@ export class WtaTourComponent implements OnInit {
        });
     });
 }*/
-chargerWtaTour(){ 
+/*chargerWtaTour(){ 
   this.wtatourService.listWtaTour().subscribe(
     tours => {
       this.wtatour = tours;
@@ -42,8 +42,11 @@ chargerWtaTour(){
         }
       });
     }
-  ); }
-
+  ); }*/
+  chargerWtaTour(){ 
+    this.wtatourService.listWtaTour().subscribe(
+      tours => { this.wtatour = tours; }); 
+    }
 
 
 suppWtaTour(wt: WtaTour)

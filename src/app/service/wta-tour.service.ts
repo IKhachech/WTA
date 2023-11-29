@@ -15,6 +15,7 @@ const httpOptions = {
 providedIn: 'root'
 })
 export class WtaTourService {
+ 
 
   apiURL: string = 'http://localhost:8085/spring01/api';
   apiURLSt: string = 'http://localhost:8085/spring01/st';
@@ -25,7 +26,7 @@ export class WtaTourService {
   stats!: Stats[];
   constructor(private http : HttpClient,private authService :AuthService) {
 
-   
+ 
     
     /*this.stat=[
       {id_stat: 1, name_player: "Coco Gauff",nationality:"USA",ranking:3,titles_won:3 },
@@ -150,7 +151,7 @@ addWtaTour( wt: WtaTour):Observable<WtaTour>{
      return this.http.post<Image>(url, imageFormData);
      }
 
-     
+
     loadImage(id: number): Observable<Image> {
       const url = `${apiURL + '/image/get/info'}/${id}`; 
       return this.http.get<Image>(url); 
@@ -159,12 +160,19 @@ addWtaTour( wt: WtaTour):Observable<WtaTour>{
     uploadImageTour(file: File, filename: string, idTour:number): 
     Observable<any>{ const imageFormData = new FormData();
        imageFormData.append('image', file, filename);
-        const url = `${this.apiURL + '/image/uplaodImageTour'}/${idTour}`; 
+        const url = `${apiURL + '/image/uplaodImageTour'}/${idTour}`; 
         return this.http.post(url, imageFormData); }
 
     supprimerImage(id : number) { 
-      const url = `${this.apiURL}/image/delete/${id}`;
+      const url = `${apiURL}/image/delete/${id}`;
        return this.http.delete(url, httpOptions); }
+
+
+       uploadImageFS(file: File, filename: string, idTour : number): Observable<any>{ 
+        const imageFormData = new FormData(); 
+        imageFormData.append('image', file, filename); 
+        const url = `${apiURL + '/image/uploadFS'}/${idTour}`; 
+       return this.http.post(url, imageFormData); }
 
 }
 

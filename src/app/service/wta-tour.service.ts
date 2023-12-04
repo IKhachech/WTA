@@ -168,11 +168,11 @@ addWtaTour( wt: WtaTour):Observable<WtaTour>{
        return this.http.delete(url, httpOptions); }
 
 
-       uploadImageFS(file: File, filename: string, idTour : number): Observable<any>{ 
+       /*uploadImageFS(file: File, filename: string, idTour : number): Observable<any>{ 
         const imageFormData = new FormData(); 
         imageFormData.append('image', file, filename); 
         const url = `${apiURL + '/image/uploadFS'}/${idTour}`; 
-       return this.http.post(url, imageFormData); }
+       return this.http.post(url, imageFormData); }*/
 
 }
 

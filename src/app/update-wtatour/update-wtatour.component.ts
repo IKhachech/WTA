@@ -43,17 +43,25 @@ private wtatourService: WtaTourService) { }
             } ) ;
              }*/
 
-ngOnInit(): void { 
-  this.wtatourService.listStat().subscribe(statWrapper => {
-    this.stats = statWrapper._embedded.statses;
-     }); 
-     this.wtatourService.consulterWtaTour(
-      this.activatedRoute.snapshot.params['id']).subscribe(
-         wt =>{ this.currentWtatour = wt; 
-          this.updatedStId = wt.stats.idStat;
-          
-         } ) 
-         ; }            
+             ngOnInit(): void { 
+              this.wtatourService.listStat().subscribe(statWrapper => {
+                this.stats = statWrapper._embedded.statses;
+              });
+            
+              this.wtatourService.consulterWtaTour(
+                this.activatedRoute.snapshot.params['id']).subscribe(
+                  wt => {
+                    this.currentWtatour = wt; 
+                    this.updatedStId = wt.stats.idStat;
+                    console.log('WtaTour Object:', wt);
+                    console.log('Image Sources:', this.currentWtatour.images.map(img => 'data:' + img.type + ';base64,' + img.image));
+                    // Log the images after they have been retrieved
+                    console.log(this.currentWtatour.images);
+                    console.log('Image Sources:', this.currentWtatour.images ? this.currentWtatour.images.map(img => 'data:' + img.type + ';base64,' + img.image) : []);
+
+                  }
+              );
+            }          
             
 
 /*updateWtaTour()
@@ -86,12 +94,28 @@ ngOnInit(): void {
     }
   }*/
 
-
-  updateWtaTour() { 
+//a Modifier pour le dossier
+ /* updateWtaTour() { 
     this.currentWtatour.stats = this.stats.find(
       st => st.idStat == this.updatedStId)!;
-       this.wtatourService .updateWtaTour(this.currentWtatour) 
-       .subscribe((_wt) => { this.router.navigate(['wtatour']); }); }
+       this.wtatourService 
+       .updateWtaTour(this.currentWtatour) 
+       .subscribe((img) => {
+
+        this.wtatourService.uploadImageFS(this.uploadedImage,this.uploadedImage.name,img.idTour!)
+.subscribe((response:any)=>{})
+
+         this.router.navigate(['wtatour']);
+       }); }*/
+
+       updateWtaTour() { 
+        this.currentWtatour.stats = this.stats.find(
+          st => st.idStat == this.updatedStId)!;
+           this.wtatourService 
+           .updateWtaTour(this.currentWtatour) 
+           .subscribe((_wt) => {
+             this.router.navigate(['wtatour']);
+           }); }
 
  onImageUpload(event: any) { 
   if(event.target.files && event.target.files.length) { 
@@ -102,14 +126,29 @@ ngOnInit(): void {
     reader.onload = () => { this.myImage = reader.result as string; }; } }
 
 
-    onAddImageWtatour() { 
+   /* onAddImageWtatour() { 
       this.wtatourService .uploadImageTour(
-        this.uploadedImage, this.uploadedImage.name,this.currentWtatour.idTour
-        ) .subscribe(
+        this.uploadedImage, this.uploadedImage.name,this.currentWtatour.idTour) .subscribe(
            (img : Image) => {
              this.currentWtatour.images.push(img);
              }); 
-            }   
+            } */ 
+            
+            onAddImageWtatour() { 
+              this.wtatourService.uploadImageTour(
+                this.uploadedImage, this.uploadedImage.name, this.currentWtatour.idTour)
+                .subscribe(
+                  (img : Image) => {
+                    // Vérifiez si this.currentWtatour.images est défini
+                    if (this.currentWtatour.images) {
+                      this.currentWtatour.images.push(img);
+                    } else {
+                      this.currentWtatour.images = [img]; // Initialisez le tableau s'il est indéfini
+                    }
+                  }
+                ); 
+            }
+            
                
 
              supprimerImage(img: Image){

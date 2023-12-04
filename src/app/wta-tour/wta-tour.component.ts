@@ -32,21 +32,21 @@ export class WtaTourComponent implements OnInit {
        });
     });
 }*/
-/*chargerWtaTour(){ 
+chargerWtaTour(){ 
   this.wtatourService.listWtaTour().subscribe(
     tours => {
       this.wtatour = tours;
       this.wtatour.forEach((wt) => {
-        if (wt.images && wt.images.length > 0) {
+       
           wt.imageStr = 'data:' + wt.images[0].type + ';base64,' + wt.images[0].image;
-        }
+        
       });
     }
-  ); }*/
-  chargerWtaTour(){ 
+  );} 
+ /* chargerWtaTour(){ 
     this.wtatourService.listWtaTour().subscribe(
       tours => { this.wtatour = tours; }); 
-    }
+    }*/
 
 
 suppWtaTour(wt: WtaTour)

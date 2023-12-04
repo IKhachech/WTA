@@ -11,4 +11,5 @@ import { Image } from "./image.model";
         image! : Image ;
         imageStr!:string;
         images!:Image[];
+        imagePath!: string;
       }

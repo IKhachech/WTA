@@ -39,7 +39,7 @@ export class AddWtatourComponent implements OnInit {
       });
       } */
       
- /* addWtaTour() {
+  addWtaTour() {
     this.wtatourService.uploadImage(
       this.uploadedImage, this.uploadedImage.name).subscribe(
         (img: Image) => {
@@ -52,8 +52,9 @@ export class AddWtatourComponent implements OnInit {
               this.router.navigate(['wtatour']);
             });
         });
-  }*/
-
+  }
+  
+/*
   addWtaTour(){ 
     this.newTour.stats = this.stats.find(
       st => st.idStat == this.newIdSt)!;
@@ -64,7 +65,7 @@ export class AddWtatourComponent implements OnInit {
           .subscribe((response: any) => {} ); 
           this.router.navigate(['wtatour']); 
         });
-       }
+       }*/
 
 
 

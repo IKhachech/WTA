@@ -24,7 +24,7 @@
           <a class="dropdown-item" routerLink="/wtaTour">List</a>
           <a class="dropdown-item" routerLink="/rechercheParStat" >Search Stat</a>
           <a class="dropdown-item" routerLink="/rechercheParNom" >Search Name</a>
-          <a class="dropdown-item" routerLink="/liststat" >Management of Stat</a>
+          <a class="dropdown-item" routerLink="/liststat" *ngIf="authService.isAdmin()" >Management of Stat</a>
         </div>
       </li>
     </ul>

@@ -3,4 +3,5 @@ idImage! : number ;
 name! : string ;
 type !: string ;
 image !: number[] ;
+id_tour!:number;
  }

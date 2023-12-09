@@ -1,7 +1,30 @@
+<style>
+  /* Animation de changement de couleur au survol des lignes du tableau */
+  .table-striped tbody tr:hover {
+    animation: changeColor 1s ease;
+  }
+
+  @keyframes changeColor {
+    0% { background-color: #ffffff; }
+    50% { background-color: rgb(245, 255, 159); }
+    100% { background-color: #ffffff; }
+  }
+
+  /* Animation d'opacité pour la table */
+  .table-animated {
+    animation: fadeIn 1s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
+
 <div class="container">
-    <div class="card shadow mb-4">
+    <div class="card shadow mb-4" style="border-radius: 15px; background-color: #f8f9fa;">
       <div class="card-body">
-        <table class="table table-striped">
+        <table class="table table-striped table-hover table-animated">
           <tr>
             <th>Id</th>
             <th>Court Surface</th>

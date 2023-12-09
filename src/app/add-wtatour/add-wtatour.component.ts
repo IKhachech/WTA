@@ -56,20 +56,16 @@ export class AddWtatourComponent implements OnInit {
   //       });
   // }
   addWtaTour() {
-    // Step 1: Add the new plat
     this.wtatourService.addWtaTour(this.newTour)
       .subscribe((addedT: WtaTour) => {
-        // Step 2: Upload the image
         this.wtatourService.uploadImageTour(this.uploadedImage, this.uploadedImage.name , addedT.idTour!)
           .subscribe((img: Image) => {
-            // Step 3: Associate the image with the new plat
             addedT.stats = this.stats.find(cat => cat.idStat == this.newIdSt)!;
             img.id_tour = addedT.idTour!;
             console.log(addedT.idTour)
-            console.log(img.id_tour); // Assuming idPlat is the ID property of Plat
+            console.log(img.id_tour); 
             addedT.image = img;
   
-            // Step 4: Update the plat with the associated image
             this.wtatourService.updateWtaTour(addedT)
               .subscribe(() => {
                 this.router.navigate(['wtatour']);
